@@ -1,6 +1,25 @@
 # PROGRESO – Simulador ROI IBM Instana
 
 
+
+## GitHub Pages deployment configurado
+
+**Fecha:** 2026-07-01
+
+### Cambios
+
+- `vite.config.ts` configurado con `base: "/instana-roi-simulator/"` para GitHub Pages.
+- Workflow `.github/workflows/deploy-pages.yml` creado.
+- CI ejecuta `npm ci`, `npm test` y `npm run build` con Node.js 20 antes de publicar.
+- Publicacion configurada con `actions/configure-pages`, `actions/upload-pages-artifact` y `actions/deploy-pages`.
+
+### Pendiente
+
+- Activar GitHub Pages en GitHub Settings si aun no esta activo.
+- Verificar el primer deploy en `https://TU_USUARIO.github.io/instana-roi-simulator/`.
+
+---
+
 ## Release candidate local — Git inicializado ✓
 
 **Fecha:** 2026-07-01  

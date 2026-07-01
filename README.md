@@ -28,6 +28,24 @@ npm run build
 npm run preview
 ```
 
+
+## Deploy en GitHub Pages
+
+El proyecto esta preparado para publicarse en GitHub Pages mediante GitHub Actions.
+
+- Workflow: `.github/workflows/deploy-pages.yml`
+- Branch de despliegue: `main`
+- Build publicado: `dist/`
+- Base path Vite: `/instana-roi-simulator/`
+
+URL esperada:
+
+```text
+https://TU_USUARIO.github.io/instana-roi-simulator/
+```
+
+Para desarrollo local se mantiene `npm run dev` con Vite. El `base` configurado afecta el build de produccion para GitHub Pages.
+
 ## Tests
 
 ```
