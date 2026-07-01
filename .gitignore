@@ -1,0 +1,66 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+*.local
+
+# Archivos de precios internos o privados — NO comitear
+pricing.local.json
+pricing.private.json
+pricing.internal.*
+precios_internos.*
+*.pricing.json
+
+# Archivos de sesión de Claude Code
+.claude/settings.local.json
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# Presentaciones y materiales internos — NO deben estar en el repo
+*.pptx
+*.ppt
+# Nota: los PDF generados por la app son output de usuario, no se comitean tampoco
+# (los PDF de exportación se generan localmente por el browser)
+
+# Archivos temporales y cache local
+.cache/
+.tmp/
+temp/
+*.swp
+*.swo
+*.bak
+*.orig
+.vite/
+coverage/
+# Configuracion local de asistentes/herramientas
+.agents/
+.codex/
+# Exportables generados localmente por usuarios
+*.pdf
+*.xlsx
+# Material interno, sellers, partners o presentaciones no publicas
+*Seller*
+*Sellers*
+*Partner*
+*Partners*
+*partner*
+*internal*
+*Internal*
+*confidential*
+*Confidential*
+*confidencial*
+*Confidencial*
+*presentacion*
+*presentación*
+*pricing-deck*

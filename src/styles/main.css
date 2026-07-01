@@ -1,0 +1,715 @@
+/* ─── Variables IBM Carbon / Instana ─────────────────────────────────────── */
+:root {
+  --ibm-blue: #0f62fe;
+  --ibm-blue-dark: #001d6c;
+  --ibm-blue-hover: #0353e9;
+  --ibm-blue-light: #d0e2ff;
+  --ibm-teal: #08bdba;
+  --ibm-green: #24a148;
+  --ibm-yellow: #f1c21b;
+  --ibm-orange: #ff832b;
+  --ibm-red: #da1e28;
+  --ibm-red-light: #fff1f1;
+  --ibm-bg: #f4f4f4;
+  --ibm-bg-white: #ffffff;
+  --ibm-text: #161616;
+  --ibm-text-secondary: #525252;
+  --ibm-border: #e0e0e0;
+  --ibm-sidebar: #1c2c3d;
+  --ibm-sidebar-text: #c1c7cd;
+  --ibm-sidebar-active: #0f62fe;
+  --sidebar-width: 240px;
+  --header-height: 56px;
+  --radius: 4px;
+  --shadow: 0 2px 6px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* ─── Reset & base ────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  font-family: 'IBM Plex Sans', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: var(--ibm-text);
+  background: var(--ibm-bg);
+  line-height: 1.5;
+}
+
+a { color: var(--ibm-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ─── Layout ──────────────────────────────────────────────────────────────── */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-left: var(--sidebar-width);
+}
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+/* ─── Sidebar ─────────────────────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--ibm-sidebar);
+  color: var(--ibm-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-logo h1 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.sidebar-logo span {
+  font-size: 11px;
+  color: var(--ibm-teal);
+  font-weight: 500;
+  display: block;
+  margin-top: 2px;
+}
+
+.sidebar-nav { flex: 1; padding: 8px 0; }
+
+.sidebar-section-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(193,199,205,0.5);
+  padding: 12px 16px 4px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ibm-sidebar-text);
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.sidebar-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+
+.sidebar-item.active {
+  color: #fff;
+  background: rgba(15,98,254,0.15);
+  border-left-color: var(--ibm-blue);
+}
+
+.sidebar-item .step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.sidebar-item.active .step-num { background: var(--ibm-blue); }
+.sidebar-item.completed .step-num { background: var(--ibm-green); }
+
+.sidebar-item .step-label { flex: 1; }
+
+.sidebar-footer {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 11px;
+  color: rgba(193,199,205,0.5);
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+.header {
+  height: var(--header-height);
+  background: #fff;
+  border-bottom: 1px solid var(--ibm-border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ibm-text);
+  flex: 1;
+}
+
+.header-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ─── Cards ───────────────────────────────────────────────────────────────── */
+.card {
+  background: #fff;
+  border: 1px solid var(--ibm-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ibm-text);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title .badge { margin-left: auto; }
+
+.metric-card {
+  background: #fff;
+  border: 1px solid var(--ibm-border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+}
+
+.metric-card .metric-label {
+  font-size: 12px;
+  color: var(--ibm-text-secondary);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.metric-card .metric-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ibm-text);
+  line-height: 1.1;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.metric-card .metric-sub {
+  font-size: 11px;
+  color: var(--ibm-text-secondary);
+  margin-top: 4px;
+}
+
+.metric-card.positive .metric-value { color: var(--ibm-green); }
+.metric-card.warning .metric-value { color: var(--ibm-orange); }
+.metric-card.negative .metric-value { color: var(--ibm-red); }
+.metric-card.blue .metric-value { color: var(--ibm-blue); }
+
+/* ─── Grids ───────────────────────────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+@media (max-width: 900px) {
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ─── Form elements ───────────────────────────────────────────────────────── */
+.form-group { margin-bottom: 16px; }
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ibm-text-secondary);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--ibm-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ibm-text);
+  background: #fff;
+  transition: border-color 0.15s;
+  outline: none;
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: var(--ibm-blue);
+  box-shadow: 0 0 0 2px var(--ibm-blue-light);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23525252' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.form-hint {
+  font-size: 11px;
+  color: var(--ibm-text-secondary);
+  margin-top: 4px;
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--ibm-blue);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--ibm-blue-hover); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ibm-blue);
+  border: 1px solid var(--ibm-blue);
+}
+.btn-secondary:hover { background: var(--ibm-blue-light); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ibm-text-secondary);
+  border: 1px solid var(--ibm-border);
+}
+.btn-ghost:hover { background: var(--ibm-bg); border-color: #999; }
+
+.btn-danger {
+  background: var(--ibm-red);
+  color: #fff;
+}
+
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-lg { padding: 12px 24px; font-size: 16px; }
+
+/* ─── Badges ──────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.badge-blue { background: var(--ibm-blue-light); color: var(--ibm-blue-dark); }
+.badge-green { background: #defbe6; color: #0e6027; }
+.badge-yellow { background: #fdd13a22; color: #8a6914; }
+.badge-orange { background: #fff2e8; color: #8a3800; }
+.badge-red { background: var(--ibm-red-light); color: var(--ibm-red); }
+.badge-gray { background: #f4f4f4; color: var(--ibm-text-secondary); }
+.badge-teal { background: #d9fbfb; color: #005d5d; }
+
+/* ─── Section title ───────────────────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ibm-blue);
+}
+
+.section-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ibm-text);
+}
+
+.section-header .section-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--ibm-blue-light);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ibm-blue);
+}
+
+/* ─── Toggle / Switch ─────────────────────────────────────────────────────── */
+.toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--ibm-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ibm-text-secondary);
+  transition: all 0.15s;
+  background: #fff;
+  user-select: none;
+}
+
+.toggle-option:hover { border-color: var(--ibm-blue); color: var(--ibm-blue); }
+
+.toggle-option.selected {
+  border-color: var(--ibm-blue);
+  background: var(--ibm-blue-light);
+  color: var(--ibm-blue-dark);
+  font-weight: 600;
+}
+
+/* ─── Checkbox group ──────────────────────────────────────────────────────── */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--ibm-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.checkbox-item:hover { border-color: var(--ibm-blue); background: #f8f9ff; }
+
+.checkbox-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ibm-blue);
+  cursor: pointer;
+}
+
+.checkbox-item.checked {
+  border-color: var(--ibm-blue);
+  background: var(--ibm-blue-light);
+  color: var(--ibm-blue-dark);
+  font-weight: 500;
+}
+
+/* ─── Block toggle ─────────────────────────────────────────────────────────── */
+.block-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border: 1.5px solid var(--ibm-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+  user-select: none;
+}
+
+.block-toggle:hover { border-color: var(--ibm-blue); box-shadow: 0 2px 8px rgba(15,98,254,0.08); }
+
+.block-toggle.active {
+  border-color: var(--ibm-blue);
+  background: linear-gradient(135deg, #f0f6ff 0%, #e8f0ff 100%);
+}
+
+.block-toggle-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  background: var(--ibm-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ibm-text-secondary);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.block-toggle.active .block-toggle-icon {
+  background: var(--ibm-blue);
+  color: #fff;
+}
+
+.block-toggle-content { flex: 1; }
+.block-toggle-title { font-size: 14px; font-weight: 600; color: var(--ibm-text); }
+.block-toggle-desc { font-size: 12px; color: var(--ibm-text-secondary); margin-top: 2px; }
+
+.block-toggle-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ibm-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.block-toggle.active .block-toggle-check {
+  background: var(--ibm-blue);
+  border-color: var(--ibm-blue);
+  color: #fff;
+}
+
+/* ─── Score bar ───────────────────────────────────────────────────────────── */
+.score-bar-wrap { margin-bottom: 12px; }
+
+.score-bar-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.score-bar-track {
+  height: 6px;
+  background: var(--ibm-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* ─── Tabs ────────────────────────────────────────────────────────────────── */
+.tabs { display: flex; border-bottom: 1px solid var(--ibm-border); margin-bottom: 20px; }
+
+.tab-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ibm-text-secondary);
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.tab-btn:hover { color: var(--ibm-text); }
+.tab-btn.active { color: var(--ibm-blue); border-bottom-color: var(--ibm-blue); }
+
+/* ─── Scenario tabs ───────────────────────────────────────────────────────── */
+.scenario-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.scenario-tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border: 1.5px solid var(--ibm-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.15s;
+  background: #fff;
+  font-family: inherit;
+}
+
+.scenario-tab.conservative { border-color: var(--ibm-yellow); }
+.scenario-tab.conservative.active { background: #fffdf0; color: #8a6914; border-width: 2px; }
+
+.scenario-tab.expected { border-color: var(--ibm-blue); }
+.scenario-tab.expected.active { background: var(--ibm-blue-light); color: var(--ibm-blue-dark); border-width: 2px; }
+
+.scenario-tab.optimistic { border-color: var(--ibm-green); }
+.scenario-tab.optimistic.active { background: #defbe6; color: #0e6027; border-width: 2px; }
+
+/* ─── Collapsible section ─────────────────────────────────────────────────── */
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--ibm-bg);
+  border: 1px solid var(--ibm-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.collapsible-header:hover { background: #e8e8e8; }
+.collapsible-header.open { border-bottom-radius: 0; border-color: var(--ibm-blue); }
+
+.collapsible-body {
+  border: 1px solid var(--ibm-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 16px;
+  background: #fff;
+}
+
+/* ─── Navigation footer ───────────────────────────────────────────────────── */
+.nav-footer {
+  padding: 16px 24px;
+  background: #fff;
+  border-top: 1px solid var(--ibm-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ─── Confidence indicator ────────────────────────────────────────────────── */
+.confidence-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.confidence-strip.high { background: #defbe6; color: #0e6027; border: 1px solid #a7f0ba; }
+.confidence-strip.medium { background: #fdd13a22; color: #8a6914; border: 1px solid #f1c21b66; }
+.confidence-strip.low { background: var(--ibm-red-light); color: var(--ibm-red); border: 1px solid #ffc1c4; }
+
+/* ─── Alert/Notice ────────────────────────────────────────────────────────── */
+.notice {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  border-left: 3px solid;
+  margin-bottom: 12px;
+}
+
+.notice-info { background: #e8f1ff; border-color: var(--ibm-blue); color: var(--ibm-blue-dark); }
+.notice-warning { background: #ffd7b9; border-color: var(--ibm-orange); color: #5c2f00; }
+.notice-success { background: #defbe6; border-color: var(--ibm-green); color: #0e6027; }
+
+/* ─── Dashboard specifics ─────────────────────────────────────────────────── */
+.dashboard-header {
+  background: linear-gradient(135deg, var(--ibm-blue-dark) 0%, #0f3460 100%);
+  color: #fff;
+  padding: 24px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+
+.dashboard-header h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.dashboard-header p { font-size: 13px; opacity: 0.7; }
+
+.roi-highlight {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+
+.roi-highlight .roi-value {
+  font-size: 48px;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--ibm-teal);
+}
+
+.roi-highlight .roi-label { font-size: 12px; opacity: 0.7; margin-top: 4px; }
+
+/* ─── Simulation notice ───────────────────────────────────────────────────── */
+.simulation-disclaimer {
+  background: #fdf6e0;
+  border: 1px solid #f0c040;
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: 11px;
+  color: #7a5a00;
+  text-align: center;
+}
+
+/* ─── Recharts overrides ──────────────────────────────────────────────────── */
+.recharts-tooltip-wrapper { z-index: 1000; }
+.recharts-cartesian-axis-tick-value { font-size: 11px; fill: var(--ibm-text-secondary); }
+
+/* ─── Export buttons area ─────────────────────────────────────────────────── */
+.export-area {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c0c0c0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
+
+/* ─── HelpTooltip ─────────────────────────────────────────────────────────── */
+.help-btn:hover,
+.help-btn:focus-visible {
+  border-color: var(--ibm-blue) !important;
+  color: var(--ibm-blue) !important;
+}
